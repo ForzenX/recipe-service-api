@@ -27,8 +27,11 @@ public class RecipeService {
 
     private final UserRepository userRepository;
 
-    public ResponseEntity<RecipeIdDto> postRecipe(RecipeDto recipeDto, UserEntity userEntity) {
+    public ResponseEntity<RecipeIdDto> postRecipe(RecipeDto recipeDto, UserDetails userDetails) {
         RecipeEntity recipeEntity = recipeMapper.mapDtoToEntity(recipeDto);
+
+        UserEntity userEntity = userRepository.findUserEntityByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "User not found"));
 
         recipeEntity.setUser(userEntity);
         recipeRepository.save(recipeEntity);

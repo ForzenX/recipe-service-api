@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import recipes.dto.RecipeDto;
 import recipes.dto.RecipeIdDto;
 import recipes.dto.RegisterInfoDto;
-import recipes.entity.UserEntity;
 import recipes.service.RecipeService;
 import recipes.service.UserService;
 
@@ -27,8 +26,8 @@ public class RecipeController {
     @PostMapping("/recipe/new")
     public ResponseEntity<RecipeIdDto> postRecipe(
             @Valid @RequestBody RecipeDto recipeDto,
-            @AuthenticationPrincipal UserEntity userEntity) {
-        return recipeService.postRecipe(recipeDto, userEntity);
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return recipeService.postRecipe(recipeDto, userDetails);
     }
 
     @GetMapping("/recipe/{id}")
